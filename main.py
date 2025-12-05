@@ -23,9 +23,12 @@ app = FastAPI(
     docs_url=None,
     redoc_url=None,
 )
-from fastapi.staticfiles import StaticFiles
-# deploy uchun
-app.mount("/static", StaticFiles(directory="app/static"), name="static")
+import os
+
+static_path = "app/static"
+if os.path.isdir(static_path):
+    app.mount("/static", StaticFiles(directory=static_path), name="static")
+
 
 
 def authenticate(credentials: HTTPBasicCredentials = Depends(security)):
